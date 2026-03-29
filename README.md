@@ -2,7 +2,7 @@
 
 ### Figure: Expert Selection Weights across Blocks (Task 4)
 
-![Routing Distribution](./routing_distribution.pdf) 
+![Routing Distribution](./routing_distribution.png) 
 *(Note: Please convert your .pdf to .png for direct display in GitHub README, or provide a link to the PDF file)*
 
 ### Analysis & Key Findings
