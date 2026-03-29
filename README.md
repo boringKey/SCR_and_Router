@@ -2,7 +2,7 @@
 
 ### Figure: Expert Selection Weights across Blocks (Final Task)
 
-![Routing Distribution](/Users/kangborui/研究生/typoraImage/routing_distribution.png)
+![Routing Distribution](./routing_distribution.png)
 
 ### Analysis & Key Findings
 
