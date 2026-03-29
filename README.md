@@ -1,21 +1,15 @@
 ## Analysis of Routing Distribution
 
-### Figure: Expert Selection Weights across Blocks (Task 4)
+### Figure: Expert Selection Weights across Blocks (Final Task)
 
-![Routing Distribution](./routing_distribution.png) 
-*(Note: Please convert your .pdf to .png for direct display in GitHub README, or provide a link to the PDF file)*
+![Routing Distribution](/Users/kangborui/研究生/typoraImage/routing_distribution.png)
 
 ### Analysis & Key Findings
 
-To address concerns regarding **"Routing Collapse"** (the tendency of MoE systems to converge on a single expert), we visualized the mean routing weights for two experts ($w1$ and $w2$) across all 12 blocks ($B0$ to $B11$) during Task 4. 
+We appreciate the reviewer's keen observation regarding the potential for "routing collapse" in MoE architectures. This repository provides empirical evidence demonstrating that our Plasticity Pathway effectively maintains balanced expert utilization without requiring an explicit auxiliary load-balancing loss.
 
-**Key Observations:**
+As stated in our manuscript's Appendix B (Experimental Details), the gating mechanism for the two task-specific experts utilizes Noisy Top-k gating. By injecting tunable Gaussian noise into the router logits prior to the Softmax activation, we ensure adequate expert exploration during training. This inherent design effectively prevents the network from lazily converging on a single expert.
 
-1. **Dynamic Expert Preference:** There is a clear shift in expert utilization across the hierarchical layers. 
-   - **Early Blocks (B0-B2):** The router strongly prefers **Expert 1 ($w1$)**, with weights exceeding 0.7.
-   - **Middle/Late Blocks (B4-B6, B8-B10):** The preference shifts significantly toward **Expert 2 ($w2$)**, reaching a peak of ~0.72 in Block 8.
-   - **Final Block (B11):** The router reverts to a preference for $w1$.
+To validate this, the visualization above illustrates the routing distribution between Task-Specific Expert 1 ($E_{s1}$) and Task-Specific Expert 2 ($E_{s2}$) across all Transformer layers during Task 4 (the final task) of the EuroSAT dataset.
 
-2. **Natural Load Balancing:** Even without an explicit load-balancing loss, the hierarchical routing mechanism demonstrates a high degree of specialization. The system effectively "routes" information to different experts based on the block's position in the hierarchy, rather than collapsing into a single path.
-
-3. **Conclusion:** This empirical evidence confirms that our architecture maintains expert diversity and achieves functional specialization across sequential blocks, effectively preventing routing collapse.
+As shown in the figure, both task-specific experts are actively utilized across all Transformer layers. There is no instance of a single expert being entirely starved, nor is there a global collapse where the network exclusively relies on one expert. This distribution confirms that both experts actively collaborate to process the data, demonstrating that the Noisy Top-k gating successfully maintains a healthy routing balance and empirically ruling out the occurrence of "routing collapse."
