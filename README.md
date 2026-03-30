@@ -5,40 +5,40 @@
  - **`## Answer to “Why does iCaRL not always outperform LwF?”`**
    - This section addresses the reviewer's question about the relative ranking of **iCaRL** and **LwF**.
 
- - **`## Answer to “Q2/Q3”`**
+ - **`## Answer to “Q2/Q3 codebase questions”`**
    - This section addresses the reviewer's **Q2/Q3 codebase questions**.
 
  - **`## Answer to “Limitation: Routing Collapse”`**
    - This section addresses the **limitation discussion on** **Routing Collapse**.
 
-## Answer to “Limitation: Routing Collapse”
+## Answer to “Why does iCaRL not always outperform LwF?”
 
 To avoid any misunderstanding, we would like to elaborate on this performance dynamics in detail by breaking it down into two key factors.
 
-First, regarding implementation, we adopt the multi-modal adaptations of these methods from **ZSCL [1]** to ensure a rigorous and traceable baseline. Since the original iCaRL and LwF were designed for single-modal scenarios, ZSCL provides a recognized framework for extending them to architectures like CLIP.
+First, regarding implementation, we adopt the multi-modal adaptations of these methods from ZSCL [1] to ensure a rigorous and traceable baseline. Since the original iCaRL and LwF were designed for single-modal scenarios, we leverage the ZSCL as it provides established reproductions of these classic methods specifically adapted for the CLIP architecture.
 
-Second, empirical evidence suggests that performance gains across diverse VLM benchmarks do not follow a uniform pattern. As established in ZSCL [1] (see Table below), iCaRL’s lead on CIFAR100 vanishes or even reverses on ImageNet100. Specifically, on ImageNet100-B10, iCaRL’s *Last* accuracy is inferior to LwF’s, and on ImageNet100-B50, LwF achieves a higher *Average* accuracy.
+Second, empirical evidence suggests that performance gains across diverse VLM benchmarks do not follow a uniform pattern. As established in ZSCL (see Table below), iCaRL’s lead on CIFAR100 vanishes or even reverses on ImageNet100. In the notation below, "BX-Y" denotes a base task of X classes followed by a sequence totaling Y tasks.
 
-| Benchmark (from [1]) | Setting  | LwF (Avg/Last)    | iCaRL (Avg/Last)  | Observation         |
-| :------------------- | :------- | :---------------- | :---------------- | :------------------ |
-| **CIFAR100**         | 10 steps | 65.86 / 48.04     | **79.35 / 70.97** | iCaRL leads         |
-| **ImageNet100**      | B10      | 83.35 / **72.40** | 83.40 / 70.96     | LwF leads in *Last* |
-| **ImageNet100**      | B50      | **80.74** / 72.22 | 79.76 / **73.96** | Rank-switching      |
+| Datasets (from [1]) | Setting | LwF (Last. ↑) | iCaRL (Last. ↑) | Observation   |
+| :------------------ | :------ | :------------ | :-------------- | :------------ |
+| **CIFAR100**        | B10-10  | 48.04%        | **70.97%**      | iCaRL leads   |
+| **ImageNet100**     | B10-10  | **72.40%**    | 70.96%          | **LwF leads** |
+| **ImageNet100**     | B50-10  | 72.22%        | **73.96%**      | iCaRL leads   |
 
-Our supplemental experiments on **ImageNet-R** further confirm this lack of absolute dominance. While iCaRL performs better with 10 tasks, **LwF surpasses iCaRL in *Last* accuracy when the task count increases to 20** (73.12 vs. 72.95).
+Our supplemental experiments on **ImageNet-R** further confirm this lack of absolute dominance across different task granularities. While iCaRL performs better with 10 tasks (B100-10), LwF surpasses iCaRL in Last accuracy when the task count increases to 20 (B100-20).
 
-| Dataset        | Tasks | LwF (Avg/Last)    | iCaRL (Avg/Last)  |
-| :------------- | :---- | :---------------- | :---------------- |
-| **ImageNet-R** | 10    | 84.10 / 78.22     | **84.57 / 78.79** |
-| **ImageNet-R** | 20    | 79.90 / **73.12** | **80.54** / 72.95 |
+| Dataset        | Setting | LwF (Last. ↑) | iCaRL (Last. ↑) | Observation   |
+| :------------- | :------ | :------------ | :-------------- | :------------ |
+| **ImageNet-R** | B100-10 | 78.22%        | **78.79%**      | iCaRL leads   |
+| **ImageNet-R** | B100-20 | **73.12%**    | 72.95%          | **LwF leads** |
 
-These findings demonstrate that when adapted to VLMs, the relative rankings of these baselines naturally fluctuate. Our results are consistent with these established empirical trends in the field.
+These findings demonstrate that when adapted to VLMs, the relative rankings of these baselines naturally fluctuate depending on the dataset and task setting. Our results are consistent with these established empirical trends in the field.
 
 **Reference:**
 [1] Preventing Zero-Shot Transfer Degradation in Continual Learning of Vision-Language Models, ICCV 2023.
 
 
- ## **Answer to “Q2/Q3”**
+ ## **Answer to “Q2/Q3 codebase questions”**
 
  For ease of inspection, the `SCR_calculate/` folder only contains the minimum files required to compute **SCR**.
 
