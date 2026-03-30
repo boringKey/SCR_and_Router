@@ -2,13 +2,16 @@
 
  This repository is prepared for rebuttal and serves three purposes:
 
- - **`## Answer to “Why does iCaRL not always outperform LwF?”`**
+ - ##### Answer to “Why does iCaRL not always outperform LwF?”
+   
    - This section addresses the reviewer's question about the relative ranking of **iCaRL** and **LwF**.
-
- - **`## Answer to “Q2/Q3 codebase questions”`**
+   
+ - ##### Answer to “Q2/Q3 codebase questions”
+   
    - This section addresses the reviewer's **Q2/Q3 codebase questions**.
-
- - **`## Answer to “Limitation: Routing Collapse”`**
+   
+ - ##### Answer to “Limitation: Routing Collapse”
+   
    - This section addresses the **limitation discussion on** **Routing Collapse**.
 
 ## Answer to “Why does iCaRL not always outperform LwF?”
