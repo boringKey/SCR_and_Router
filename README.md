@@ -20,7 +20,7 @@ To avoid any misunderstanding, we would like to elaborate on this performance dy
 
 First, regarding implementation, we adopt the multi-modal adaptations of these methods from ZSCL [1] to ensure a rigorous and traceable baseline. Since the original iCaRL and LwF were designed for single-modal scenarios, we leverage the ZSCL as it provides established reproductions of these classic methods specifically adapted for the CLIP architecture.
 
-Second, empirical evidence suggests that performance gains across diverse VLM benchmarks do not follow a uniform pattern. As established in ZSCL (see Table below), iCaRL’s lead on CIFAR100 vanishes or even reverses on ImageNet100. In the notation below, "BX-Y" denotes a base task of X classes followed by a sequence totaling Y tasks.
+Second, empirical evidence suggests that performance gains across diverse VLM benchmarks do not follow a uniform pattern. As established in ZSCL (see Table below), iCaRL’s lead on CIFAR100 vanishes or even reverses on ImageNet100.
 
 | Datasets (from [1]) | Setting | LwF (Last. ↑) | iCaRL (Last. ↑) | Observation   |
 | :------------------ | :------ | :------------ | :-------------- | :------------ |
@@ -28,7 +28,9 @@ Second, empirical evidence suggests that performance gains across diverse VLM be
 | **ImageNet100**     | B10-10  | **72.40%**    | 70.96%          | **LwF leads** |
 | **ImageNet100**     | B50-10  | 72.22%        | **73.96%**      | iCaRL leads   |
 
-Our supplemental experiments on **ImageNet-R** further confirm this lack of absolute dominance across different task granularities. While iCaRL performs better with 10 tasks (B100-10), LwF surpasses iCaRL in Last accuracy when the task count increases to 20 (B100-20).
+*("BX-Y" denotes a base task of X classes followed by a sequence totaling Y tasks)*
+
+Furthermore, we conduct supplemental experiments on **ImageNet-R** and observed the same phenomenon across different task counts. While iCaRL performs better with 10 tasks (B100-10), LwF surpasses iCaRL in Last accuracy when the task count increases to 20 (B100-20).
 
 | Dataset        | Setting | LwF (Last. ↑) | iCaRL (Last. ↑) | Observation   |
 | :------------- | :------ | :------------ | :-------------- | :------------ |
