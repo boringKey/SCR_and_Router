@@ -40,8 +40,8 @@ class KittiDistance(DatasetBase):
 
         Discretization into classes:
             0: 0 < z_min < 10         -> 'nearby'
-            1: 10 <= z_min < 30       -> 'middle distance'
-            2: z_min >= 30            -> 'faraway'
+            1: 10 <= z_min < 20       -> 'middle distance'
+            2: z_min >= 20            -> 'faraway'
             3: no car                 -> 'no car.'
 
         No official test set; we split randomly (per class) into train/test by test_ratio.
@@ -162,8 +162,8 @@ class KittiDistance(DatasetBase):
 
         Thresholds:
             0: 0 < z < 10
-            1: 10 <= z < 30
-            2: z >= 30
+            1: 10 <= z < 20
+            2: z >= 20
         """
         z_vals = []
         if os.path.isfile(label_path):
