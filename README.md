@@ -13,4 +13,4 @@
 
 ![Routing Distribution](./routing_distribution.png)
 
-**Figure 1: Expert Selection Weights for Task 4 on EuroSAT.** Both Task-Specific Experts ($E_{s1}, E_{s2}$) are actively utilized across all layers, demonstrating a healthy routing balance without expert starvation. This is achieved via our Noisy Top-$k$ gating mechanism (Appendix B), which injects tunable Gaussian noise into router logits to ensure expert exploration. Consequently, our approach prevents "routing collapse" without requiring an explicit auxiliary loss.
+**Figure 1: Expert Selection Weights for Task 4 on EuroSAT.** Both Task-Specific Experts ($E_{s1}$, $E_{s2}$) are actively utilized across all layers, demonstrating a healthy routing balance without expert starvation. This is achieved via our Noisy Top-${k}$ gating mechanism (Appendix B), which injects tunable Gaussian noise into router logits to ensure expert exploration. Consequently, our approach prevents "routing collapse" without requiring an explicit auxiliary loss.
