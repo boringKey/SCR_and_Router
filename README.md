@@ -1,13 +1,13 @@
 ### Table 1
 
-| **Dataset**           | **Setting** | **LwF (Last. ↑)** | **iCaRL (Last. ↑)** | **Observation** |
-| --------------------- | ----------- | ----------------- | ------------------- | --------------- |
-| **ImageNet100** ([1]) | B10-10      | **72.40%**        | 70.96%              | **LwF leads**   |
-| **ImageNet100** ([1]) | B50-10      | 72.22%            | **73.96%**          | iCaRL leads     |
-| **ImageNet-R** (Ours) | B100-10     | 78.22%            | **78.79%**          | iCaRL leads     |
-| **ImageNet-R** (Ours) | B100-20     | **73.12%**        | 72.95%              | **LwF leads**   |
+| **Dataset**           | **Setting** | **LwF (CIL Last. ↑)** | **iCaRL (CIL Last. ↑)** | **Observation** |
+| --------------------- | ----------- | --------------------- | ----------------------- | --------------- |
+| **ImageNet100** ([1]) | B10-10      | **72.40%**            | 70.96%                  | **LwF leads**   |
+| **ImageNet100** ([1]) | B50-10      | 72.22%                | **73.96%**              | iCaRL leads     |
+| **ImageNet-R** (Ours) | B100-10     | 78.22%                | **78.79%**              | iCaRL leads     |
+| **ImageNet-R** (Ours) | B100-20     | **73.12%**            | 72.95%                  | **LwF leads**   |
 
-**Table 1: Performance comparison of LwF and iCaRL using CLIP-based implementations.** “BX-Y” denotes $X$ base classes followed by $Y$ incremental tasks. Utilizing the validated reproduction framework from ZSCL [1], our results show that **relative performance varies across different benchmarks and settings**, explaining why iCaRL does not consistently outperform LwF. [1] Preventing Zero-Shot Transfer Degradation in Continual Learning of Vision-Language Models, ICCV 2023.
+**Table 1: Performance comparison of LwF and iCaRL using CLIP-based implementations.** “BX-Y” denotes $X$ base classes and $Y$ tasks. Utilizing the framework from [1], results (including [1] and our supplementary experiments) show that **relative performance varies across benchmarks and settings**, explaining why iCaRL does not consistently outperform LwF. [1] Preventing Zero-Shot Transfer Degradation in Continual Learning of Vision-Language Models, ICCV 2023.
 
 ### Figure 1
 
