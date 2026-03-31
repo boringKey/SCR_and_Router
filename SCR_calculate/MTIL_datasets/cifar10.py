@@ -1,7 +1,7 @@
 import os
 from typing import List
 
-from .utils import *  # Datum, DatasetBase
+from .utils import *  
 from .oxford_pets import OxfordPets
 
 try:
@@ -61,9 +61,7 @@ class CIFAR10(DatasetBase):
         train_ds = TorchCIFAR10(root=self.dataset_dir, train=True, download=True)
         test_ds = TorchCIFAR10(root=self.dataset_dir, train=False, download=True)
 
-        # Build Datum lists
         trainval = []
-        # train_ds.data: numpy array HWC, train_ds.targets: list[int]
         for idx in range(len(train_ds.data)):
             img = Image.fromarray(train_ds.data[idx])
             label = int(train_ds.targets[idx])
@@ -77,18 +75,14 @@ class CIFAR10(DatasetBase):
             classname = CIFAR10_CLASSES[label]
             test.append(Datum(impath=img, label=label, classname=classname))
 
-        # Split train/val
         train, val = OxfordPets.split_trainval(trainval)
 
-        # Few-shot sampling if requested
         if num_shots >= 1:
             train = self.generate_fewshot_dataset(train, num_shots=num_shots)
             val = self.generate_fewshot_dataset(val, num_shots=min(num_shots, 4))
 
-        # Optional class subsampling (base/new)
         train, val, test = OxfordPets.subsample_classes(train, val, test, subsample=subsample_classes)
 
-        # Templates
         self.templates = CIFAR10_TEMPLATES
 
         super().__init__(train_x=train, val=val, test=test)

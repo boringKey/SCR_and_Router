@@ -6,7 +6,6 @@ from .utils import Datum, DatasetBase, mkdir_if_missing
 from .oxford_pets import OxfordPets
 from .utils import read_json, write_json
 
-# Class list and templates as specified
 CLEVR_COUNT_CLASSES: List[str] = [
     '10', '3', '4', '5', '6', '7', '8', '9'
 ]
@@ -21,7 +20,6 @@ class CLEVRCount(DatasetBase):
     dataset_dir = 'clevr'
 
     def __init__(self, root, num_shots: int = 0, seed: int = 1, subsample_classes: str = 'all'):
-        # Root and directories
         root = os.path.abspath(os.path.expanduser(root))
         self.dataset_dir = os.path.join(root, self.dataset_dir)
         self.images_dir = os.path.join(self.dataset_dir, 'images')
@@ -30,7 +28,6 @@ class CLEVRCount(DatasetBase):
         self.split_fewshot_dir = os.path.join(self.dataset_dir, 'split_fewshot')
         mkdir_if_missing(self.split_fewshot_dir)
 
-        # Required files
         train_scenes = os.path.join(self.scenes_dir, 'CLEVR_train_scenes.json')
         val_scenes = os.path.join(self.scenes_dir, 'CLEVR_val_scenes.json')
         if not os.path.isfile(train_scenes) or not os.path.isfile(val_scenes):
@@ -38,7 +35,6 @@ class CLEVRCount(DatasetBase):
                 f"CLEVRCount expects scenes JSON at {train_scenes} and {val_scenes}"
             )
 
-        # Load or build split
         if os.path.exists(self.split_path):
             train, val, test = OxfordPets.read_split(self.split_path, self.dataset_dir)
         else:
@@ -47,7 +43,6 @@ class CLEVRCount(DatasetBase):
             train, val = OxfordPets.split_trainval(trainval)
             OxfordPets.save_split(train, val, test, self.split_path, self.dataset_dir)
 
-        # Few-shot
         if num_shots >= 1:
             preprocessed = os.path.join(self.split_fewshot_dir, f"shot_{num_shots}-seed_{seed}.pkl")
             if os.path.exists(preprocessed):
@@ -63,13 +58,10 @@ class CLEVRCount(DatasetBase):
                 with open(preprocessed, 'wb') as f:
                     pickle.dump(data, f, protocol=pickle.HIGHEST_PROTOCOL)
 
-        # Optional class subsampling (base/new)
         train, val, test = OxfordPets.subsample_classes(train, val, test, subsample=subsample_classes)
 
-        # Templates
         self.templates = CLEVR_COUNT_TEMPLATES
 
-        # Debug stats
         try:
             def _hist(items: List[Datum]):
                 from collections import Counter

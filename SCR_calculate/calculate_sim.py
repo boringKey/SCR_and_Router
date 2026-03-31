@@ -67,14 +67,14 @@ def normalize_labels_to_list(lab) -> List[int]:
         arr = lab.detach().cpu().numpy()
         if arr.ndim == 0:
             return [int(arr)]
-        if arr.ndim == 1 and arr.size > 0 and set(np.unique(arr)).issubset({0,1}):
+        if arr.ndim == 1 and arr.size > 1 and set(np.unique(arr)).issubset({0,1}):
             return [int(x) for x in np.where(arr > 0.5)[0].tolist()]
         return [int(x) for x in arr.flatten().tolist()]
     if isinstance(lab, (list, tuple, np.ndarray)):
         arr = np.asarray(lab)
         if arr.ndim == 0:
             return [int(arr)]
-        if arr.ndim == 1 and arr.size > 0 and set(np.unique(arr)).issubset({0,1}):
+        if arr.ndim == 1 and arr.size > 1 and set(np.unique(arr)).issubset({0,1}):
             return [int(x) for x in np.where(arr > 0.5)[0].tolist()]
         if arr.ndim == 1:
             return [int(x) for x in arr.tolist()]
@@ -217,14 +217,12 @@ def build_visual_class_prototypes_subset(model, device, ds_wrapper, label_ids: L
 
 
 def cosine_distance_matrix(A: torch.Tensor, B: torch.Tensor) -> torch.Tensor:
-    # A: [K1, D], B: [K2, D]; assume rows L2-normalized
     S = (A @ B.t()).clamp(-1.0, 1.0)
-    return 1.0 - S  # in [0, 2]
+    return 1.0 - S
 
 
 def directed_covering_distance(T_src: torch.Tensor, V_src: torch.Tensor,
                                T_tgt: torch.Tensor, V_tgt: torch.Tensor) -> float:
-    """Compute directed Chamfer distance A->B = mean_i min_j d(a_i, b_j)."""
     if V_src.size(0) == 0 or V_tgt.size(0) == 0:
         return 0.0
     F_src = torch.cat([V_src, T_src], dim=1)
@@ -245,7 +243,6 @@ def tasks_to_upstream_similarity_matrix(vision_model, device,
                                         dataset_root: str,
                                         beta: float,
                                         clip_text_model=None) -> Tuple[np.ndarray, List[str]]:
-    # Build upstream prototypes
     T_up_list: List[torch.Tensor] = []
     V_up_list: List[torch.Tensor] = []
     for nm in upstream_names:
@@ -254,7 +251,6 @@ def tasks_to_upstream_similarity_matrix(vision_model, device,
         templates = templates_list[i]
         ds_wrapper = dataset_list[i]
         K = len(classnames)
-        print(f"Building upstream prototypes for {nm}: {K} classes")
         T_k = build_text_class_prototypes(clip_text_model, device, classnames, templates, batch_size=256)
         V_k = build_visual_class_prototypes(vision_model, device, ds_wrapper, K, max_per_class=int(max_images_per_class), batch_size=int(vision_batch_size), preprocess_eval=preprocess_eval)
         T_up_list.append(T_k)
@@ -278,7 +274,6 @@ def tasks_to_upstream_similarity_matrix(vision_model, device,
     distances = np.zeros((cil_splits, len(upstream_names)), dtype=float)
     for t, cls_ids in enumerate(class_ids_per_task):
         cls_names_t = [classnames_single[c] for c in cls_ids]
-        print(f"Building downstream task-{t} prototypes: {len(cls_names_t)} classes")
         T_t = build_text_class_prototypes(clip_text_model, device, cls_names_t, templates_single, batch_size=256)
         ds_down = train_list[0]
         V_t = build_visual_class_prototypes_subset(vision_model, device, ds_down, list(cls_ids), max_per_class=int(max_images_per_class), batch_size=int(vision_batch_size), preprocess_eval=preprocess_eval)
@@ -305,7 +300,6 @@ def main():
     names = DEFAULT_NAMES_ORDER1
 
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-    # Load CLIP once (for clip vision and/or clip text)
     clip_model, _, preprocess_eval_clip = load_orig_clip(args.model_name, device=device, jit=False)
     clip_model.eval()
 
@@ -313,7 +307,6 @@ def main():
     preprocess_eval = preprocess_eval_clip
     clip_text_model = clip_model
 
-    # Load MTIL test datasets to build class/name lists and wrappers
     cfg = type("Cfg", (), {})()
     cfg.dataset = "MTIL"
     cfg.dataset_root = args.dataset_root
@@ -329,7 +322,6 @@ def main():
     classes_names_list = classes_names_list[:n]
     templates_list = templates_list[:n] if templates_list is not None else [None] * n
 
-    # Downstream task-to-upstream similarity matrix mode
     if args.downstream_dataset and int(args.cil_split) > 0:
         alias_in = (args.downstream_dataset or '').strip()
         alias_map = {"FGVCAircraft": "Aircraft", "DescribableTextures": "DTD"}

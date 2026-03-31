@@ -48,14 +48,11 @@ def get_dataset(cfg, split, transforms=None):
         classes_names = []
         templates = []
         for base_set in base_sets:
-            # VOC2007 special handling: when selected as downstream (train_one_dataset >= 0),
-            # we need single-label data for CIL; for ZS (train_one_dataset == -1), keep multi-label.
             if base_set is VOC2007 and getattr(cfg, 'train_one_dataset', -1) >= 0:
                 base = base_set(cfg.dataset_root, seed=cfg.seed, single_label=True)
             else:
                 base = base_set(cfg.dataset_root, seed=cfg.seed)
             classes_names.append(base.classnames)
-            # each dataset exposes a list of template callables/strings via `templates`
             templates.append(getattr(base, 'templates', None))
             if split == 'train':
                 dataset.append(DatasetWrapper(base.train_x, transform=transforms, is_train=is_train))
