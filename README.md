@@ -53,24 +53,24 @@ These findings demonstrate that when adapted to VLMs, the relative rankings of t
 
  **Relevant line numbers:**
 
- - **`SCR_calculate/calculate_SCR.py:72-112`**
+ - **`SCR_calculate/calculate_SCR.py:71-110`**
    - Function `compute_scores_with_matrix(...)`
    - This is the core implementation that computes the task-wise SCR score from:
      - the zero-shot performance matrix, and
      - the task-to-upstream similarity matrix.
      - The task-to-upstream similarity matrix is computed by **`SCR_calculate/calculate_sim.py`**.
 
- - **`SCR_calculate/calculate_SCR.py:220-223`**
+ - **`SCR_calculate/calculate_SCR.py:217-220`**
    - This part aggregates the task-wise scores and prints the final overall **SCR** value.
 
- - **`SCR_calculate/calculate_SCR.py:225-237`**
+ - **`SCR_calculate/calculate_SCR.py:222-234`**
    - This part additionally computes and prints the low-, mid-, and high-similarity grouped SCR values.
 
  ## **Answer to “Limitation: Routing Collapse”**
 
  ### Figure: Expert Selection Weights across Blocks (Final Task)
 
- ![Routing Distribution](./routing_distribution.png)
+ ![Routing Distribution](/Users/kangborui/研究生/typoraImage/routing_distribution-4927975.png)
 
  ### Analysis & Key Findings
 
