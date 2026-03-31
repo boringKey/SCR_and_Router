@@ -7,10 +7,10 @@
 | **ImageNet-R** (Ours) | B100-10     | 78.22%            | **78.79%**          | iCaRL leads     |
 | **ImageNet-R** (Ours) | B100-20     | **73.12%**        | 72.95%              | **LwF leads**   |
 
-**Table 1: Performance comparison between LwF and iCaRL under multi-modal adaptations.** “BX-Y” denotes a base task of $X$ classes followed by $Y$ tasks. Following ZSCL [1] protocols, our results (including ImageNet-R) show that relative performance in VLMs varies across different benchmarks and settings, explaining why iCaRL’s advantage over LwF is not uniform. [1] Preventing Zero-Shot Transfer Degradation in Continual Learning of Vision-Language Models, ICCV 2023.
+**Table 1: Performance comparison of LwF and iCaRL using CLIP-based implementations.** “BX-Y” denotes $X$ base classes followed by $Y$ incremental tasks. Utilizing the validated reproduction framework from ZSCL [1], our results show that **relative performance varies across different benchmarks and settings**, explaining why iCaRL does not consistently outperform LwF. [1] Preventing Zero-Shot Transfer Degradation in Continual Learning of Vision-Language Models, ICCV 2023.
 
 ### Figure 1
 
 ![Routing Distribution](./routing_distribution.png)
 
-**Figure 1: Expert Selection Weights for Task 4 on EuroSAT.** Both Task-Specific Experts are actively utilized across all layers, demonstrating a healthy routing balance without expert starvation. This is achieved via our Noisy Top-K gating mechanism (Appendix B), which injects tunable Gaussian noise into router logits to ensure expert exploration. Consequently, our approach prevents "routing collapse" without requiring an explicit auxiliary loss.
+**Figure 1: Expert Selection Weights for Final Task on EuroSAT.** Both Task-Specific Experts are actively utilized across all layers, demonstrating a healthy routing balance without expert starvation. This is achieved via our Noisy Top-K gating mechanism (Appendix B), which injects tunable Gaussian noise into router logits to ensure expert exploration. Consequently, our approach prevents "routing collapse" without requiring an explicit auxiliary loss.
